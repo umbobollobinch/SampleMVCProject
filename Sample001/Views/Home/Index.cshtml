@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Welcome.";
+}
+
+@model List<dynamic>
+
+@*@model Sample001.Models.PositiveCaseModel[]*@
+<p id="msg">ハローワールド！</p>
+<p id="highlight">本日の陽性者数： </p>
+@Html.ActionLink("福井県へ", "PrefPortal", "Pref", new { pref = "Fukui" }, new {@id="link_fukui" })
+@Html.ActionLink("GUNMA県へ", "PrefPortal", "Pref", new { pref = "Gunma" }, new { @id = "link_gunma" })
+@Html.ActionLink("神奈川県へ", "PrefPortal", "Pref", new { pref = "Kanagawa" }, new { @id = "link_kanagawa" })
+@Html.ActionLink("北海道へ(500エラー)", "PrefPortal", "Pref", new { pref = "Hokkaido" }, new { @id = "link_hokkaido" })
+@Html.ActionLink("東京都へ(404エラー)", "Prefs", "Tokyo", null, new { @id = "link_tokyo" })
+<div id="chart_area00">
+    <p id="title00">過去1か月の感染者数の推移</p>
+</div>
+
+@section Scripts{
+    <script>
+    @{var result = config.GetDataForGraph(Model, (string)ViewBag.Place); }
+    var e_result = @Html.Raw(Json.Serialize(result));
+
+    insert_text("highlight",e_result[e_result.length - 1].num,"beforeend");
+
+    show_chart("title00", e_result);
+    </script>
+}

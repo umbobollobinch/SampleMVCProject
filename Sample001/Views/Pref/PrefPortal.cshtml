@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = ViewBag.Place;
+}
+
+@model List<dynamic>
+
+@*@model Sample001.Models.Prefs.FukuiModel[]*@
+
+<h2 id="msg">@(config["PrefName:" + ViewBag.Place])のコロナウイルス感染情報</h2>
+
+<div id="area01">
+    <input id="show_chart01" type="button" value="推移グラフ表示" onclick="show_chart(this.id, e_result)" />
+</div>
+
+<div id="area02">
+    <div id="btn-zone">
+    </div>
+</div>
+
+<table id="t-base01">
+</table>
+
+@section Scripts {
+    <script src="~/js/Prefs/func_for_prefs.js"></script>
+    <script>
+    ///////////////////////////////////////////////////////
+    ///// arrange data for showing graph //////////////////
+    // ----------------------------------------------------
+    @{var result = config.GetDataForGraph(Model, (string)ViewBag.Place); }
+    var e_result = @Html.Raw(Json.Serialize(result));
+    // ----------------------------------------------------
+
+
+    ///////////////////////////////////////////////////////
+    ///// setup data for table ////////////////////////////
+    // ----------------------------------------------------
+    @{
+        var dlist = StaticMethods.GetDisplayNames(Model[0]);
+        var vlist = StaticMethods.GetValues(Model);
+    }
+
+    var dtitles = @Html.Raw(Json.Serialize(dlist)) ;
+    var vals    = @Html.Raw(Json.Serialize(vlist)) ;
+
+    /////////////////////////////////////////////
+    // create checkbox zone & table_header //////
+    // ------------------------------------------
+    setup_head(dtitles);
+    // ------------------------------------------
+
+    /////////////////////////////////////////////
+    // setup table values ///////////////////////
+    // ------------------------------------------
+    setup_table_values(vals);
+    // ------------------------------------------
+    // ----------------------------------------------------
+    </script>
+}

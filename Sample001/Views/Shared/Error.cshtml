@@ -1,0 +1,13 @@
+﻿@model Sample001.Models.ErrorViewModel
+@{
+    ViewBag.Title = "Error.";
+}
+<p>エラー出てます。。。</p>
+<p id="msg">Httpステータスコード： @Model.statusCode</p>
+
+@if (Model.showRequestId)
+{
+    <p>
+        リクエストID: <code>@Model.requestId</code>
+    </p>
+}
